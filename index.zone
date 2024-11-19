@@ -1,0 +1,17 @@
+; BIND db file for rutasegura.xyz
+
+$TTL 86400
+
+@       IN      SOA     ns-1715.awsdns-22.co.uk.      alanenmexico12.gmail.com. (
+                        2024111901	; serial number YYMMDDNN
+                        28800           ; Refresh
+                        7200            ; Retry
+                        864000          ; Expire
+                        86400           ; Min TTL
+			)
+
+                NS      ns-1715.awsdns-22.co.uk. 
+                NS      ns-1210.awsdns-23.org. 
+
+
+$ORIGIN rutasegura.xyz.

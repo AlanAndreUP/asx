@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora con Árbol</title>
+    <script>
+        async function sendAction(action) {
+            const formData = new FormData();
+            formData.append("expression", document.getElementById("expression").value);
+            formData.append("action", action);
+
+            const response = await fetch("/calculate", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+
+            document.getElementById("expression").value = data.expression;
+            const treeContainer = document.getElementById("tree");
+            treeContainer.innerHTML = ""; // Limpiar árbol previo
+
+            if (data.tree_data) {
+                data.tree_data.forEach(node => {
+                    const li = document.createElement("li");
+                    li.textContent = `${node.name} (Padre: ${node.parent || "Ninguno"})`;
+                    treeContainer.appendChild(li);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Calculadora</h1>
+    <input type="text" id="expression" readonly value="">
+    <div>
+        <button onclick="sendAction('1')">1</button>
+        <button onclick="sendAction('2')">2</button>
+        <button onclick="sendAction('3')">3</button>
+        <button onclick="sendAction('+')">+</button>
+    </div>
+    <div>
+        <button onclick="sendAction('4')">4</button>
+        <button onclick="sendAction('5')">5</button>
+        <button onclick="sendAction('6')">6</button>
+        <button onclick="sendAction('-')">-</button>
+    </div>
+    <div>
+        <button onclick="sendAction('7')">7</button>
+        <button onclick="sendAction('8')">8</button>
+        <button onclick="sendAction('9')">9</button>
+        <button onclick="sendAction('*')">*</button>
+    </div>
+    <div>
+        <button onclick="sendAction('C')">C</button>
+        <button onclick="sendAction('0')">0</button>
+        <button onclick="sendAction('=')">=</button>
+        <button onclick="sendAction('/')">/</button>
+    </div>
+    <h2>Árbol de Expresión</h2>
+    <ul id="tree"></ul>
+</body>
+</html>
